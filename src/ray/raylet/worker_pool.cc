@@ -1216,6 +1216,9 @@ void WorkerPool::PopWorker(const TaskSpecification &task_spec,
     auto worker_process_ptr = LookupWorkerProcessInfo(it->first->GetStartupToken());
     if (worker_process_ptr == nullptr ||
         worker_process_ptr->dynamic_options != dynamic_options) {
+      continue;
+    }
+
     // Don't allow worker reuse across jobs.
     // TODO(scv119): make this optional?
     if (!it->first->GetAssignedJobId().IsNil() &&
