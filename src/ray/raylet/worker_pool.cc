@@ -1235,7 +1235,11 @@ void WorkerPool::PopWorker(const TaskSpecification &task_spec,
     if (runtime_env_hash != it->first->GetRuntimeEnvHash()) {
       RAY_LOG(DEBUG) << "runtime env mismatch:" << runtime_env_hash << ":"
                      << it->first->GetRuntimeEnvHash();
-      continue;
+      if (!task_spec.HasRuntimeEnv() && it->first->GetAssignedJobId().IsNil() && ! RayConfig::instance().worker_resource_limits_enabled()) {
+        // pass
+      } else {
+        continue;
+      }
     }
 
     state.idle.erase(it->first);
