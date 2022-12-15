@@ -65,6 +65,7 @@ BACKEND_NAME_TO_CONFIG_CLS_NAME = {
     "horovod": "HorovodConfig",
     "tensorflow": "TensorflowConfig",
     "torch": "TorchConfig",
+    "mindspore": "MindSporeConfig",
 }
 
 # The environment variables that need to be propagated from the driver to the
