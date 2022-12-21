@@ -6,6 +6,8 @@ from ray.train._internal.backend_executor import (
     BackendExecutor,
 )
 from ray.train._internal.dataset_spec import RayDatasetSpec
+from ray.train._internal.worker_group import WorkerGroup
+from ray.train.backend import Backend, BackendConfig
 
 from ray.train.mindspore import MindSporeConfig
 
@@ -41,3 +43,24 @@ def test_mindspore_start(ray_start_2_cpus):
     e.start_training(check_process_group, dataset_spec=EMPTY_RAY_DATASET_SPEC)
     assert not any(e.finish_training())
 
+@pytest.mark.parametrize("init_method", ["env", "tcp"])
+def test_mindspore_start_shutdown(ray_start_2_cpus, init_method):
+    mindspore_config = MindSporeConfig(backend="gloo", init_method=init_method)
+    e = BackendExecutor(mindspore_config, num_workers=2)
+    e.start()
+
+    def check_process_group():
+        import mindspore
+        from mindspore.communication.management import init, get_group_size
+
+        return (
+            mindspore.get_group_size() == 2
+        )
+
+    e.start_training(check_process_group, dataset_spec=EMPTY_RAY_DATASET_SPEC)
+    assert all(e.finish_training())
+
+    e._backend.on_shutdown(e.worker_group, e._backend_config)
+
+    e.start_training(check_process_group, dataset_spec=EMPTY_RAY_DATASET_SPEC)
+    assert not any(e.finish_training())
