@@ -91,7 +91,7 @@ if __name__ == "__main__":
         help="Sets number of workers for training.",
     )
     parser.add_argument(
-        "--use-gpu", action="store_true", default=False, help="Enables GPU training"
+        "--use-gpu", action="store_true", default=True, help="Enables GPU training"
     )
     parser.add_argument(
         "--epochs", type=int, default=3, help="Number of epochs to train for."

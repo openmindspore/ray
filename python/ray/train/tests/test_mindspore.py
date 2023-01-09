@@ -20,6 +20,7 @@ from ray.train.backend import BackendConfig, Backend, EncodedData
 from ray.train._internal.worker_group import WorkerGroup
 
 import mindspore
+from mindspore.nn import Cell
 
 class MindSporeConfig(BackendConfig):
     backend: Optional[str] = None
@@ -102,7 +103,27 @@ class NeuralNetwork(nn.Cell):
 scaling_config = ScalingConfig(num_workers=1)
 
 def fn():
+    torch_model = TorchNeuralNetwork()
     model = NeuralNetwork()
+
+import torch.nn as torchnn
+class TorchNeuralNetwork(torchnn.Module):
+    def __init__(self):
+        super(TorchNeuralNetwork, self).__init__()
+        self.flatten = torchnn.Flatten()
+        self.linear_relu_stack = torchnn.Sequential(
+            torchnn.Linear(28 * 28, 512),
+            torchnn.ReLU(),
+            torchnn.Linear(512, 512),
+            torchnn.ReLU(),
+            torchnn.Linear(512, 10),
+            torchnn.ReLU(),
+        )
+    def forward(self, x):
+        x = self.flatten(x)
+        logits = self.linear_relu_stack(x)
+        return logits
+        
 
 # test pickling for nn.Cell
 bin = ray.cloudpickle.dumps(fn)
