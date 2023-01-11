@@ -9,6 +9,7 @@ ray.init(runtime_env={"py_modules": ["/home/wjeon/mindspore-ai/mindspore/output/
                       "env_vars": {"PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION": "python"},
                      })
 """
+"""
 ray.init(runtime_env={"py_modules": ["/home/wjeon/mindspore-ai/mindspore/mindspore/python/mindspore",
                                      "/home/wjeon/mindspore-ai/mindspore/mindspore/python/mindspore/lib",
                                     ],
@@ -43,6 +44,8 @@ ray.init(runtime_env={"py_modules": ["/home/wjeon/mindspore-ai/mindspore/mindspo
                                     "/_ms_mpi.cpython-38-x86_64-linux-gnu.so",
                                    ], 
 })
+"""
+ray.init(runtime_env={"working_dir": "https://10.145.87.82/openmindspore/mindspore.zip"})
 
 class MyCell(nn.Cell):
     def __init__(self):
