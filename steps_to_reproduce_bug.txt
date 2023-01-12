@@ -1,0 +1,8 @@
+pip install -U ray==2.0.1
+pip install https://ms-release.obs.cn-north-4.myhuaweicloud.com/1.9.0/MindSpore/gpu/x86_64/cuda-11.1/mindspore_gpu-1.9.0-cp38-cp38-linux_x86_64.whl --trusted-host ms-release.obs.cn-north-4.myhuaweicloud.com -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install smart_open
+
+git clone https://github.com/openmindspore/ray.git
+cd ray
+git checkout releases/2.0.1
+python3 python/ray/tests/test_mindspore.py
