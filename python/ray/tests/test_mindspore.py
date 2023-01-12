@@ -45,7 +45,9 @@ ray.init(runtime_env={"py_modules": ["/home/wjeon/mindspore-ai/mindspore/mindspo
                                    ], 
 })
 """
-ray.init(runtime_env={"working_dir": "https://10.145.87.82/openmindspore/mindspore.zip"})
+# ray.init(runtime_env={"working_dir": "https://10.145.87.82/mindspore.zip"})
+
+ray.init(runtime_env={"working_dir": "https://www.dropbox.com/s/t1v6ltnbzpejzam/mindspore.zip"})
 
 class MyCell(nn.Cell):
     def __init__(self):
