@@ -67,6 +67,6 @@ print("res=", res)
 
 # run remote fn 2 times
 futures = [remote_fn.remote(0) for i in range(2)]
-ray.get(futures)
+print(ray.get(futures))
 
 ray.shutdown()
